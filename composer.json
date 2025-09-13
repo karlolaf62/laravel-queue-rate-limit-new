@@ -16,10 +16,10 @@
     "type": "library",
     "require": {
         "php": "^8",
-        "illuminate/queue": "^11.0||12",
-        "illuminate/contracts": "^11.0||12",
-        "illuminate/cache": "^11.0||12",
-        "illuminate/log": "^11.0||12"
+        "illuminate/queue": "^12",
+        "illuminate/contracts": "^12",
+        "illuminate/cache": "^12",
+        "illuminate/log": "^12"
     },
     "authors": [
         {
