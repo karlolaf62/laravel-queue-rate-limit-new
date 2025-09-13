@@ -5,40 +5,39 @@ namespace MichaelLedin\LaravelQueueRateLimit;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Queue\QueueManager;
 use Psr\Log\LoggerInterface;
 
 class Worker extends \Illuminate\Queue\Worker
 {
     /**
-     * @var array
+     * The rate limits configuration
      */
-    private $rateLimits;
+    private array $rateLimits;
 
     /**
-     * @var RateLimiter
+     * The rate limiter instance
      */
-    private $rateLimiter;
+    private RateLimiter $rateLimiter;
 
     /**
-     * @var LoggerInterface
+     * The logger instance
      */
-    private $logger;
+    private ?LoggerInterface $logger;
 
     /**
-     * @inheritDoc
-     * @param array|null $rateLimits
-     * @param RateLimiter $rateLimiter
-     * @param LoggerInterface $logger
+     * Create a new queue worker.
      */
-    public function __construct(QueueManager $manager,
-                                Dispatcher $events,
-                                ExceptionHandler $exceptions,
-                                callable $isDownForMaintenance,
-                                $rateLimits,
-                                $rateLimiter,
-                                $logger)
-    {
+    public function __construct(
+        QueueManager $manager,
+        Dispatcher $events,
+        ExceptionHandler $exceptions,
+        callable $isDownForMaintenance,
+        ?array $rateLimits,
+        RateLimiter $rateLimiter,
+        ?LoggerInterface $logger
+    ) {
         parent::__construct($manager, $events, $exceptions, $isDownForMaintenance);
 
         $this->rateLimits = $rateLimits ?? [];
@@ -46,7 +45,7 @@ class Worker extends \Illuminate\Queue\Worker
         $this->logger = $logger;
     }
 
-    protected function getNextJob($connection, $queue)
+    protected function getNextJob(string $connection, string $queue): ?Job
     {
         $job = null;
         foreach (explode(',', $queue) as $queue) {
@@ -82,7 +81,7 @@ class Worker extends \Illuminate\Queue\Worker
     }
 
 
-    private function log(string $message)
+    private function log(string $message): void
     {
         if ($this->logger) {
             $this->logger->debug($message);

@@ -8,16 +8,16 @@ use Psr\Log\LoggerInterface;
 
 class QueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->registerLogger();
         parent::register();
     }
 
-    protected function registerWorker()
+    protected function registerWorker(): void
     {
         $this->app->singleton('queue.worker', function () {
-            $isDownForMaintenance = function () {
+            $isDownForMaintenance = function (): bool {
                 return $this->app->isDownForMaintenance();
             };
 
@@ -33,7 +33,7 @@ class QueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
         });
     }
 
-    protected function registerLogger() {
+    protected function registerLogger(): void {
         $this->app->singleton('queue.logger', function () {
             return $this->app[LoggerInterface::class];
         });
