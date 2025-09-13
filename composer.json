@@ -1,6 +1,6 @@
 {
-    "name": "mxl/laravel-queue-rate-limit",
-    "description": "Simple Laravel queue rate limiting",
+    "name": "mxl/laravel-queue-rate-limit-new",
+    "description": "Updated simple Laravel queue rate limiting",
     "keywords": [
         "queue",
         "rate",
