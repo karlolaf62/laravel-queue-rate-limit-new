@@ -5,7 +5,6 @@ namespace MichaelLedin\LaravelQueueRateLimit;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Queue\Jobs\Job;
 use Illuminate\Queue\QueueManager;
 use Psr\Log\LoggerInterface;
 
@@ -45,7 +44,7 @@ class Worker extends \Illuminate\Queue\Worker
         $this->logger = $logger;
     }
 
-    protected function getNextJob(string $connection, string $queue): ?Job
+    protected function getNextJob($connection, $queue): \Illuminate\Contracts\Queue\Job
     {
         $job = null;
         foreach (explode(',', $queue) as $queue) {
